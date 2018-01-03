@@ -8,34 +8,20 @@ import classNames from 'classnames';
 
 const Error = ({error}) => <Alert className="flash-message" bsStyle="danger"><FormattedMessage id={error.id} values={{value: error.value}}/>{error.message}</Alert>
 
-const PostsList = ({className, results, loading, count, totalCount, loadMore, showHeader = true, showLoadMore = true, showFooter = true, networkStatus, currentUser, error, terms}) => {
-
-  const loadingMore = networkStatus === 2;
+const PostsEarnings = ({className, results, loading, currentUser, error, terms}) => {
 
   if (results && results.length) {
-
-    const hasMore = totalCount > results.length;
-
     return (
       <div className={classNames(className, 'posts-list', `posts-list-${terms.view}`)}>
-        {showHeader ? <Components.PostsListHeader/> : null}
-        {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
+         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
-          {results.map(post => <Components.PostsItem post={post} key={post._id} currentUser={currentUser} terms={terms} />)}
+          {results.map(post =>  post)}
         </div>
-          {showFooter ? <div>Footer</div> : null}
-        {showLoadMore ? 
-          hasMore ? 
-            <Components.PostsLoadMore loading={loadingMore} loadMore={loadMore} count={count} totalCount={totalCount} /> : 
-            <Components.PostsNoMore/> : 
-          null
-        }
       </div>
     )
   } else if (loading) {
     return (
       <div className={classNames(className, 'posts-list')}>
-        {showHeader ? <Components.PostsListHeader /> : null}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
           <Components.PostsLoading/>
@@ -45,7 +31,6 @@ const PostsList = ({className, results, loading, count, totalCount, loadMore, sh
   } else {
     return (
       <div className={classNames(className, 'posts-list')}>
-        {showHeader ? <Components.PostsListHeader /> : null}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
           <Components.PostsNoResults/>
@@ -56,9 +41,9 @@ const PostsList = ({className, results, loading, count, totalCount, loadMore, sh
   
 };
 
-PostsList.displayName = "PostsList";
+PostsEarnings.displayName = "PostsEarnings";
 
-PostsList.propTypes = {
+PostsEarnings.propTypes = {
   results: PropTypes.array,
   terms: PropTypes.object,
   hasMore: PropTypes.bool,
@@ -69,14 +54,14 @@ PostsList.propTypes = {
   showHeader: PropTypes.bool,
 };
 
-PostsList.contextTypes = {
+PostsEarnings.contextTypes = {
   intl: intlShape
 };
 
 const options = {
   collection: Posts,
   queryName: 'postsListQuery',
-  fragmentName: 'PostsList',
+  fragmentName: 'PostsEarnings',
 };
 
-registerComponent('PostsList', PostsList, withCurrentUser, [withList, options]);
+registerComponent('PostsEarnings', PostsEarnings, withCurrentUser, [withList, options]);

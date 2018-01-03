@@ -24,6 +24,7 @@ const UsersProfile = (props) => {
       <div className="page users-profile">
         <Components.HeadTags url={Users.getProfileUrl(user, true)} title={Users.getDisplayName(user)} />
         <h2 className="page-title">{Users.getDisplayName(user)}</h2>
+        <h3>Totals earning this period: </h3>
         {user.htmlBio ? <div dangerouslySetInnerHTML={{__html: user.htmlBio}}></div> : null }
         <ul>
           {user.twitterUsername ? <li><a href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a></li> : null }
@@ -34,6 +35,7 @@ const UsersProfile = (props) => {
         </ul>
         <h3><FormattedMessage id="users.posts"/></h3>
         <Components.PostsList terms={terms} showHeader={false} />
+        {/*<Components.PostsEarnings terms={terms} showHeader={false} />*/}
       </div>
     )
   }
